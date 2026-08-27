@@ -21,8 +21,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/login/', permanent=False), name='frontend'),
+    path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
+    path('recipes/', TemplateView.as_view(template_name='recipes.html'), name='recipes'),
+    path('recipes/new/', TemplateView.as_view(template_name='recipe_form.html'), name='recipe-new'),
+    path('recipes/edit/', TemplateView.as_view(template_name='recipe_form.html'), name='recipe-edit'),
+    path('library/', TemplateView.as_view(template_name='library.html'), name='library'),
+    path('profile/', TemplateView.as_view(template_name='profile.html'), name='profile'),
+    path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='api-scheme'),
     path(

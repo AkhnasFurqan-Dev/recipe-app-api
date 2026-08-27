@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Recipes{% endblock %}{% block page %}recipes{% endblock %}
+{% block content %}
+<div class="page-intro"><div><p class="eyebrow">Your collection</p><h1>Recipes</h1><p class="subhead">A home for the things you love to cook.</p></div><a class="button primary" href="/recipes/new/">＋ Add recipe</a></div>
+<div id="app-message" class="message"></div><div class="recipe-layout"><aside class="filters panel"><label class="search-label">Search<input id="search-input" type="search" placeholder="Try “pasta”"></label><div class="filter-group"><p class="label">Tags</p><div id="tag-filters" class="check-list"></div></div><div class="filter-group"><p class="label">Ingredients</p><div id="ingredient-filters" class="check-list"></div></div><div class="filter-stats"><span><strong id="recipe-count">0</strong> recipes</span><span><strong id="tag-count">0</strong> tags</span><span><strong id="ingredient-count">0</strong> ingredients</span></div></aside><section><div id="recipe-grid" class="recipe-grid"></div><div id="empty-state" class="empty-state hidden"><span>✳</span><h2>Your recipe book is waiting.</h2><p>Start with something you already know by heart.</p><a class="button secondary" href="/recipes/new/">Add your first recipe</a></div></section></div>
+{% endblock %}

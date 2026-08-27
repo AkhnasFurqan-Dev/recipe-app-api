@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pantry | Recipe book</title>
+  <link rel="stylesheet" href="{% static 'frontend/styles.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">PANTRY<span>.</span></a>
+    <div id="account-actions" class="account-actions"></div>
+  </header>
+
+  <main class="shell">
+    <section id="auth-view" class="auth-layout">
+      <div class="intro">
+        <p class="eyebrow">Your kitchen, organized</p>
+        <h1>Good food starts with a good <em>recipe book.</em></h1>
+        <p class="lede">Keep the recipes you actually make close at hand. Save the details, find them by ingredient, and make dinner easier.</p>
+      </div>
+      <div class="auth-card">
+        <div class="tabs"><button class="tab active" data-auth-tab="login">Sign in</button><button class="tab" data-auth-tab="register">Create account</button></div>
+        <form id="login-form" class="auth-form">
+          <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+          <button class="button primary" type="submit">Open my recipe book <span>→</span></button>
+        </form>
+        <form id="register-form" class="auth-form hidden">
+          <label>Name<input name="name" required></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          <label>Password<input name="password" type="password" minlength="5" autocomplete="new-password" required></label>
+          <button class="button primary" type="submit">Create my account <span>→</span></button>
+        </form>
+        <p id="auth-message" class="form-message"></p>
+      </div>
+    </section>
+
+    <section id="app-view" class="hidden">
+      <div class="page-heading">
+        <div><p class="eyebrow">Personal recipe book</p><h1>What are we cooking?</h1></div>
+        <button id="new-recipe-button" class="button primary">＋ New recipe</button>
+      </div>
+      <div id="app-message" class="notice hidden"></div>
+      <div class="workspace">
+        <aside class="sidebar">
+          <div class="sidebar-section"><p class="section-label">Find a recipe</p><input id="search-input" class="search" type="search" placeholder="Search your book..."></div>
+          <div class="sidebar-section"><p class="section-label">Filter by tag</p><div id="tag-filters" class="filter-list"></div></div>
+          <div class="sidebar-section"><p class="section-label">Filter by ingredient</p><div id="ingredient-filters" class="filter-list"></div></div>
+          <div class="sidebar-section"><p class="section-label">Your pantry</p><div class="stat-row"><span>Recipes</span><strong id="recipe-count">0</strong></div><div class="stat-row"><span>Tags</span><strong id="tag-count">0</strong></div><div class="stat-row"><span>Ingredients</span><strong id="ingredient-count">0</strong></div></div>
+        </aside>
+        <section class="recipe-area"><div id="recipe-grid" class="recipe-grid"></div><div id="empty-state" class="empty-state hidden"><div class="empty-mark">✳</div><h2>No recipes here yet</h2><p>Add your first recipe and make this space yours.</p><button class="button secondary" id="empty-add">Add a recipe</button></div></section>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="recipe-dialog" class="dialog"><form id="recipe-form" method="dialog" class="dialog-card"><div class="dialog-header"><div><p class="eyebrow">Recipe details</p><h2 id="recipe-dialog-title">New recipe</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Close">×</button></div><div class="form-grid"><label class="wide">Title<input name="title" required maxlength="255"></label><label>Time (minutes)<input name="time_minutes" type="number" min="1" required></label><label>Price<input name="price" type="number" min="0" step="0.01" required></label><label class="wide">Description<textarea name="description" rows="4"></textarea></label><label class="wide">Recipe link<input name="link" type="url" placeholder="https://..."></label><label class="wide">Tags <small>Separate with commas</small><input name="tags" placeholder="quick, vegetarian"></label><label class="wide">Ingredients <small>Separate with commas</small><input name="ingredients" placeholder="tomatoes, basil"></label></div><div class="dialog-footer"><button type="button" class="button ghost" data-close-dialog>Cancel</button><button type="submit" class="button primary">Save recipe</button></div><p id="recipe-message" class="form-message"></p></form></dialog>
+
+  <dialog id="manage-dialog" class="dialog"><div class="dialog-card"><div class="dialog-header"><div><p class="eyebrow">Your library</p><h2 id="manage-title">Manage tags</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Close">×</button></div><div id="manage-list" class="manage-list"></div></div></dialog>
+
+  <dialog id="profile-dialog" class="dialog"><form id="profile-form" method="dialog" class="dialog-card"><div class="dialog-header"><div><p class="eyebrow">Account</p><h2>Your profile</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Close">×</button></div><label>Name<input name="name" required maxlength="255"></label><p class="profile-email" id="profile-email"></p><label>New password <small>Leave blank to keep your current password</small><input name="password" type="password" minlength="5" autocomplete="new-password"></label><div class="dialog-footer"><button type="button" class="button ghost" data-close-dialog>Cancel</button><button type="submit" class="button primary">Save profile</button></div><p id="profile-message" class="form-message"></p></form></dialog>
+
+  <script src="{% static 'frontend/app.js' %}"></script>
+</body>
+</html>

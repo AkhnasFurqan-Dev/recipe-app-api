@@ -1,0 +1,22 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Pantry{% endblock %} | Pantry</title>
+  <link rel="stylesheet" href="{% static 'frontend/styles.css' %}">
+</head>
+<body data-page="{% block page %}{% endblock %}">
+  {% csrf_token %}
+  <header class="topbar">
+    <a class="brand" href="/recipes/">PANTRY<span>.</span></a>
+    <nav id="main-nav" class="main-nav">
+      <a href="/recipes/">Recipes</a><a href="/library/">Library</a><a href="/profile/">Profile</a>
+      <button id="logout-button" class="nav-button">Sign out</button>
+    </nav>
+  </header>
+  <main class="page-shell">{% block content %}{% endblock %}</main>
+  <script src="{% static 'frontend/app.js' %}"></script>
+</body>
+</html>

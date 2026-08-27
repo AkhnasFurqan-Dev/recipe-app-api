@@ -5,7 +5,7 @@ Views for the recipe APIs.
 from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter, OpenApiTypes
 
 from rest_framework import viewsets, mixins, status
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -35,7 +35,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     serializer_class = serializers.RecipeSerializer
     queryset = Recipe.objects.all()
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
 
@@ -101,6 +101,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
 )
 class BaseRecipeAttrViewSet(
+    mixins.CreateModelMixin,
         mixins.DestroyModelMixin,
         mixins.UpdateModelMixin,
         mixins.ListModelMixin,
@@ -108,7 +109,7 @@ class BaseRecipeAttrViewSet(
     ):
     """Base viewset for recipe attributes"""
 
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -123,6 +124,11 @@ class BaseRecipeAttrViewSet(
             queryset = queryset.filter(recipe__isnull = False)
 
         return queryset.filter(user = self.request.user).order_by('-name').distinct()
+
+    def perform_create(self, serializer):
+        """Create an attribute in the authenticated user's library."""
+
+        serializer.save(user = self.request.user)
 
 
 class TagViewSet(BaseRecipeAttrViewSet):
